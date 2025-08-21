@@ -1,3 +1,4 @@
+require('dotenv').config();
 const yargs = require("yargs");
 const { hideBin } = require("yargs/helpers"); //to read arguments from terminal
 

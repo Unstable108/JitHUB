@@ -8,6 +8,7 @@ async function commitRepo(message) {
   const stagedPath = path.join(repoPath, "staged");
   const commitPath = path.join(repoPath, "commited");
 
+
   try {
     const commitID = uuidv4();
     //every commit directory, id of the commit
