@@ -8,7 +8,7 @@ async function initRepo() {
   //new hidden folder will be created-> .jitHub
   //process.cwd() will give the current working directory ->backend
   const repoPath = path.resolve(process.cwd(), ".jitHub");
-  const commitsPath = path.join(repoPath, "commits");
+  const commitsPath = path.join(repoPath, "commited");
 
   //we don't know if folder creation is successful or not
   try {
