@@ -3,7 +3,7 @@ import {
   useContext,
   useState,
   useEffect,
-  Children,
+  useMemo
 } from "react";
 
 // 1. Create Context
@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const value = { currentUser, setCurrentUser };
+  const value = useMemo(() => ({ currentUser, setCurrentUser }), [currentUser]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

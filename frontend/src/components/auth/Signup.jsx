@@ -31,7 +31,7 @@ const Signup = () => {
   return (
     <div className="bg-gray-900 min-h-screen flex flex-col items-center justify-center p-4">
       <div className="text-2xl font-bold mb-8">
-        <image src={Logo} alt="logo" />
+        <img src={Logo} alt="logo" />
       </div>
       <div className="w-full max-w-sm p-6 bg-white rounded-lg shadow-md">
         <h1 className="text-2xl font-semibold text-center mb-6">Sign Up</h1>
@@ -43,6 +43,7 @@ const Signup = () => {
           <div>
             <label className="block text-m font-medium text-gray-700">Username</label>
             <input
+              required
               type="text"
               value={username}
               onChange={(e) => setUserName(e.target.value)}
@@ -52,6 +53,7 @@ const Signup = () => {
           <div>
             <label className="block text-m font-medium text-gray-700">Email</label>
             <input
+              required
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -61,6 +63,7 @@ const Signup = () => {
           <div>
             <label className="block text-m font-medium text-gray-700">Password</label>
             <input
+              required
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

@@ -1,50 +1,44 @@
 import React from "react";
-import { useNavigate, useRoutes } from 'react-router-dom';
+import { useNavigate, useRoutes, Outlet, Navigate } from "react-router-dom";
 
-//pages List
 import { Profile, Dashboard, Login, Signup } from "./components";
-
 import { useAuth } from "./context/authContext";
 
+// ProtectedRoute component
+const ProtectedRoute = () => {
+  const { currentUser } = useAuth();
+  return currentUser ? <Outlet /> : <Navigate to="/login" replace />;
+};
+
 export const ProjectRoutes = () => {
-    const { currentUser, setCurrentUser } = useAuth();
-    const navigate = useNavigate();
+  const { currentUser, setCurrentUser } = useAuth();
+  const navigate = useNavigate();
 
-    React.useEffect(() => {
-        const userIdFromStorage = localStorage.getItem("userId");
+  React.useEffect(() => {
+    const userIdFromStorage = localStorage.getItem("userId");
 
-        if (userIdFromStorage && !currentUser) {
-            setCurrentUser(userIdFromStorage);
-        }
+    // Set currentUser if userId exists in localStorage and currentUser is null
+    if (userIdFromStorage && !currentUser) {
+      setCurrentUser(userIdFromStorage);
+    }
 
-        // Corrected logic: allow navigation to both /signup and /login
-        if (!userIdFromStorage && !["/signup", "/login"].includes(window.location.pathname)) {
-            navigate("/signup");
-        }
+    // Redirect from /signup or /login to / if user is authenticated
+    if (userIdFromStorage && ["/signup", "/login"].includes(window.location.pathname)) {
+      navigate("/", { replace: true });
+    }
+  }, [currentUser, navigate, setCurrentUser]);
 
-        if (userIdFromStorage && window.location.pathname === '/signup') {
-            navigate("/");
-        }
-    }, [currentUser, navigate, setCurrentUser]);
+  let element = useRoutes([
+    {
+      element: <ProtectedRoute />,
+      children: [
+        { path: "/", element: <Dashboard /> },
+        { path: "/profile", element: <Profile /> },
+      ],
+    },
+    { path: "/login", element: <Login /> },
+    { path: "/signup", element: <Signup /> },
+  ]);
 
-    let element = useRoutes([
-        {
-            path: "/",
-            element: <Dashboard />
-        },
-        {
-            path: "/login",
-            element: <Login />
-        },
-        {
-            path: "/signup",
-            element: <Signup />
-        },
-        {
-            path: "/profile",
-            element: <Profile />
-        },
-    ]);
-
-    return element;
-}
+  return element;
+};
