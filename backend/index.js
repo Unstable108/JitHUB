@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 const yargs = require("yargs");
 const { hideBin } = require("yargs/helpers"); //to read arguments from terminal
 
@@ -27,7 +27,6 @@ yargs(hideBin(process.argv))
       addRepo(argv.file);
     }
   )
-  .command("push", "Push changes to the remote repository", {}, pushRepo)
   .command(
     "commit <message>",
     "Commit changes to the repo",
@@ -41,6 +40,7 @@ yargs(hideBin(process.argv))
       commitRepo(argv.message);
     }
   )
+  .command("push", "Push changes to the remote repository", {}, pushRepo)
   .command("pull", "Pull changes from the remote repository", {}, pullRepo)
   .command(
     "revert <commitID>",
@@ -51,7 +51,9 @@ yargs(hideBin(process.argv))
         type: "string",
       });
     },
-    revertRepo
+    (argv) => {
+      revertRepo(argv.commitID);
+    }
   )
   .demandCommand(1, "You need atleast one command")
   .help().argv;
